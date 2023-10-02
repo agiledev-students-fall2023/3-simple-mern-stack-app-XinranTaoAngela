@@ -13,10 +13,10 @@ app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
 
 // connect to database
-mongoose
-   .connect('${process.env.DB_CONNECTION_STRING}')
-   .then(data => console.log('Connected to MongoDB'))
-   .catch(err => console.error(`Failed to connect to MongoDB: ${err}`))
+//mongoose
+//   .connect('${process.env.DB_CONNECTION_STRING}')
+//  .then(data => console.log('Connected to MongoDB'))
+//  .catch(err => console.error(`Failed to connect to MongoDB: ${err}`))
 
 // load the dataabase models we want to deal with
 const { Message } = require('./models/Message')
