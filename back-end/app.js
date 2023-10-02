@@ -14,14 +14,14 @@ app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming P
 
 // connect to database
 mongoose
-  .connect(`${process.env.DB_CONNECTION_STRING}`)
-  .then(data => console.log(`Connected to MongoDB`))
-  .catch(err => console.error(`Failed to connect to MongoDB: ${err}`))
+   .connect('${process.env.DB_CONNECTION_STRING}')
+   .then(data => console.log('Connected to MongoDB'))
+   .catch(err => console.error(`Failed to connect to MongoDB: ${err}`))
 
 // load the dataabase models we want to deal with
 const { Message } = require('./models/Message')
 const { User } = require('./models/User')
-
+const AboutMe = require('./models/aboutMeModel')
 // a route to handle fetching all messages
 app.get('/messages', async (req, res) => {
   // load all messages from database
@@ -39,8 +39,39 @@ app.get('/messages', async (req, res) => {
     })
   }
 })
+const transformGoogleDriveLink = (link) => {
+  const fileId = link.split('/d/')[1].split('/view')[0];
+  return `https://drive.google.com/uc?export=view&id=${fileId}`;
+};
 
-// a route to handle fetching a single message by its id
+// Hardcoded data for About Us
+const aboutUsData = {
+  image: transformGoogleDriveLink('https://drive.google.com/file/d/1PADtJEL5Y-7ZlwojMVmYn78LIRA5oP3x/view?usp=drive_link'),
+  name: "Angela Tao",
+  paragraphs: [
+    "I'm A senior at NYU Gallatin.",
+    "My expertise includes frontend and backend development, and I enjoy working with the latest technologies.",
+    "I also enjoy gaming, as well as dancing and singing.",
+  ],
+};
+
+// a route to handle fetching the hardcoded About Us data
+app.get('/aboutus', async (req, res) => {
+  try {
+    res.json({
+      aboutUs: aboutUsData,
+      status: 'all good',
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      error: err,
+      status: 'failed to retrieve "About Us" data from the server',
+    });
+  }
+});
+
+
 app.get('/messages/:messageId', async (req, res) => {
   // load all messages from database
   try {
@@ -78,5 +109,6 @@ app.post('/messages/save', async (req, res) => {
   }
 })
 
-// export the express app we created to make it available to other modules
+
+
 module.exports = app // CommonJS export style!
