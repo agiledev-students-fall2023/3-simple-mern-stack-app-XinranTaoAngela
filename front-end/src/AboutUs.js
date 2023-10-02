@@ -7,7 +7,7 @@ function AboutUs() {
 
   useEffect(() => {
     // Fetch the "About Us" data from the backend
-    axios.get('${process.env.REACT_APP_SERVER_HOSTNAME}/aboutus')
+    axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/aboutus`)
       .then(response => {
         console.log(response.data)
         setAboutUsData(response.data);
@@ -27,9 +27,9 @@ function AboutUs() {
       ) : aboutUsData ? (
         <div>
           {console.log(aboutUsData.aboutUs)}
-          { <img src="https://drive.google.com/uc?export=view&id=1PADtJEL5Y-7ZlwojMVmYn78LIRA5oP3x" alt="random" width="300" height="360" /> }
+          {/* <img src="https://drive.google.com/uc?export=view&id=1PADtJEL5Y-7ZlwojMVmYn78LIRA5oP3x" alt="random" width="300" height="360" /> */}
           <img src={aboutUsData.aboutUs.image} alt="random" width="300" height="360" />
-          { <img src={aboutUsData.image} alt={aboutUsData.name} /> }
+          {/* <img src={aboutUsData.image} alt={aboutUsData.name} /> */}
           <h3>{aboutUsData.aboutUs.name}</h3>
           <ul>
             {aboutUsData.aboutUs.paragraphs.map((paragraph, index) => (
